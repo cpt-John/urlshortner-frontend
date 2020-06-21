@@ -1,0 +1,143 @@
+<nav class="navbar navbar-light bg-secondary shadow fixed-top">
+  <p class="h2">URL Shortner app</p>
+  <button class="btn btn-warning ml-auto" type="button" (click)="logout()">
+    Logut</button
+  ><br />
+</nav>
+<br /><br /><br />
+<div class="row justify-content-center pt-3">
+  <div class="col-md-8 col-xl-5">
+    <div>
+      <p class="h3">{{ "welcome,  " + userData["name"] | titlecase }}</p>
+      <div class="d-flex flex-row">
+        <p>
+          <small>{{ userData["email"] }}</small>
+        </p>
+        <p class="ml-auto">
+          links:
+          <span class="badge badge-primary p-1">{{ data.length }}</span>
+        </p>
+      </div>
+    </div>
+    <form
+      [formGroup]="profileForm"
+      (ngSubmit)="setData()"
+      class="border-success rounded shadow p-3"
+      style="border: solid 3px;"
+      autocomplete="off"
+    >
+      <div class="form-group">
+        <label for="url">Paste your URL here:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="url"
+          formControlName="url"
+          [ngClass]="{
+            valid: profileForm.get('url').valid,
+            invalid:
+              profileForm.get('url').invalid && profileForm.get('url').dirty
+          }"
+        />
+        <span
+          class="invalidTxt"
+          *ngIf="profileForm.get('url').invalid && profileForm.get('url').dirty"
+          >Enter valid url</span
+        >
+      </div>
+      <div class="form-group">
+        <label for="name">Give it a name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          aria-describedby="emailHelp"
+          formControlName="name"
+          [ngClass]="{
+            valid: profileForm.get('name').valid,
+            invalid:
+              profileForm.get('name').invalid && profileForm.get('name').dirty
+          }"
+        />
+        <span
+          class="invalidTxt"
+          *ngIf="
+            profileForm.get('name').invalid && profileForm.get('name').dirty
+          "
+          >Enter valid name</span
+        >
+      </div>
+      <div class="text-center">
+        <div
+          *ngIf="requesting"
+          class="spinner-border text-success"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <button
+        *ngIf="!requesting"
+        type="submit"
+        class="btn btn-primary mr-4"
+        [ngClass]="{
+          'btn-success': profileForm.valid,
+          'btn-danger': profileForm.invalid
+        }"
+        [disabled]="profileForm.invalid"
+      >
+        Create
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="row justify-content-center pt-3">
+  <div class="col-md-8 col-xl-5">
+    <input
+      type="text"
+      class="form-control ml-2"
+      style="width: 60%;"
+      placeholder="Search for tag name"
+      id="search"
+      (input)="filter()"
+      autocomplete="off"
+    />
+    <input id="copy-temp" type="hidden" />
+    <div>
+      <div
+        class="card-body bg-secondary rounded m-2"
+        *ngFor="let item of filteredData; index as i"
+      >
+        <p class="overflow-link">
+          {{ " full url: " + item["url_long"] }}
+        </p>
+        <div class="d-flex flex-row align-items-center pb-3">
+          <span class="badge badge-primary p-1 mr-2">{{ item["name"] }}</span>
+          <p class="m-0 overflow-link">
+            {{ "short url:  " + item["url_short"] }}
+          </p>
+        </div>
+        <div class="d-flex flex-row align-items-center pb-3">
+          <button
+            class="btn btn-success mr-2"
+            type="button"
+            (click)="copyLink(item.url_short)"
+          >
+            Copy
+          </button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            (click)="deleteData(item.url_short_val)"
+          >
+            Delete
+          </button>
+          <span class="badge badge-primary p-1 ml-auto">{{
+            "clicks: " + item["count"]
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
