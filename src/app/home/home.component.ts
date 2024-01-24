@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   userData = {};
   data = [];
   filteredData = [];
-  baseSUrl = DataService.baseUrl;
+  baseSUrl = DataService.getBaseUrl();
   constructor(
     private fb: FormBuilder,
     private _router: Router,
