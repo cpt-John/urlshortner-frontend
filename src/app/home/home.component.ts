@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   userData = {};
   data = [];
   filteredData = [];
-  baseSUrl = DataService.getBaseUrl();
+  baseSUrl = '';
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -64,6 +64,7 @@ export class HomeComponent implements OnInit {
   setData() {
     let jwt = window.localStorage.getItem('loginToken');
     this.requesting = true;
+    this.baseSUrl = this.service.getBaseUrl();
     let bodyData = {
       jwt,
       name: this.profileForm.get('name').value,
