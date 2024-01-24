@@ -6,7 +6,7 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
-  baseUrl = 'https://john-url-shortner.herokuapp.com/';
+  baseUrl = 'https://url-shortner-5qjg.onrender.com/';
   constructor(private http: HttpClient) {}
   login(bodyData): Observable<any> {
     return this.http.post(this.baseUrl + 'login', bodyData);
