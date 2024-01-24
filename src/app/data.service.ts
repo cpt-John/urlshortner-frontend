@@ -35,7 +35,4 @@ export class DataService {
   deleteData(bodyData) {
     return this.http.post(this.baseUrl + 'deleteUrl', bodyData);
   }
-  getBaseUrl() {
-    return this.baseUrl;
-  }
 }
